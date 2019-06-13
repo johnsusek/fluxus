@@ -16,7 +16,9 @@ For now just choose the master branch under rules; as this package matures seman
 
 ## Usage
 
-### Minimal example
+### 1) Minimal example
+
+<hr>
 
 #### Create state
 ```swift
@@ -111,9 +113,174 @@ struct ContentView: View {
 }
 ```
 
+Run your app and you should see the counter incrementing.
+
+<br>
+
+### 2) Add getters
+
+<hr>
+
+#### Create getter
+```swift
+// Getters centralize logic related to retrieving data from the store
+class AppRootGetter: RootGetter<AppRootState> {
+  var countIsEven: Bool {
+    get {
+      return state.counterState.count % 2 == 0
+    }
+  }
+}
+```
+
+#### Update SceneDelegate
+```swift
+let state = AppRootState()
+let committer = AppRootCommitter()
+let store = FluxStore(withState: state, withCommitter: committer, withDispatcher: nil)
+let getters = AppRootGetter(withState: state) // + Added line
+
+window.rootViewController = UIHostingController(rootView: ContentView()
+  .environmentObject(store)
+  .environmentObject(getters) // + Added line
+  .environmentObject(state.counterState))
+```
+
+#### Update View
+```swift
+import Fluxus
+
+struct ContentView: View {
+  @EnvironmentObject var store: FluxStore
+  @EnvironmentObject var counterState: CounterState
+  @EnvironmentObject var getters: AppRootGetter // + Added line
+
+  var body: some View {
+    VStack {
+      Text("Count: \(counterState.count)")
+        .color(getters.countIsEven ? .orange : .green) // + Added line
+
+      Button(action: { self.store.commit(CounterMutation.Increment) }) {
+        Text("Increment")
+      }
+    }
+  }
+}
+```
+
+Now the color will change based on the getter value. 
+
+<br>
+
+### 3) Add actions/dispatchers
+
+<hr>
+
+#### Create actions/dispatchers
+
+```swift
+// Actions define an async operation
+enum CounterAction: Action {
+  case IncrementRandom
+}
+
+// Dispatchers execute actions
+final class CounterDispatcher: Dispatcher {
+  func dispatch(store: FluxStore, action: CounterAction) {
+    switch action {
+    case .IncrementRandom:
+      CounterDispatcher.IncrementRandom(store: store)
+    }
+  }
+
+  static func IncrementRandom(store: FluxStore) {
+    // This could be any async operation, API call, etc
+    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100), execute: {
+      let exampleResultFromAsyncOperation = Int.random(in: 1..<100)
+      // Async operation done, commit mutation
+      store.commit(CounterMutation.AddAmount(exampleResultFromAsyncOperation))
+    })
+  }
+}
+
+// All actions are first sent to the root dispatcher, which routes them to the
+// correct dispatcher module
+final class AppRootDispatcher: RootDispatcher {
+  let counterDispatcher = CounterDispatcher()
+
+  func dispatch(store: FluxStore, action: Action) {
+    switch action {
+    case is CounterAction:
+      counterDispatcher.dispatch(store: store, action: action as! CounterAction)
+    default:
+      print("Unknown action type: \(action)")
+    }
+  }
+}
+```
+
+#### Update mutations
+
+Our IncrementRandom action commits a CounterMutation.AddAmount(Int) mutation when it's done, so let's add that to our mutations:
+
+```swift
+enum CounterMutation: Mutation {
+  case Increment
+  case AddAmount(Int) // + Added line
+}
+```
+
+And then implement it in our CounterCommitter:
+
+```swift
+final class CounterCommitter: Committer {
+  func commit(state: CounterState, mutation: CounterMutation) {
+    switch mutation {
+    case .Increment:
+      state.count += 1
+    case .AddAmount(let amount): // + Added line
+      state.count += amount // + Added line
+    }
+  }
+}
+```
+
+#### Update SceneDelegate
+
+```swift
+let dispatcher = AppRootDispatcher() // + Added line
+let store = FluxStore(withState: state, withCommitter: committer, withDispatcher: dispatcher) // ~ Updated line
+```
+
+#### Update ContentView
+
+```swift
+// +++ Added lines
+Button(action: { self.store.dispatch(CounterAction.IncrementRandom) }) {
+  Text("Increment Random (Async)")
+}
+```
+
+The count will now update asynchronously as you dispatch the IncrementRandom action.
+
+<br>
+
+### Additional functionality
+
+To be documented:
+
+* Getter modules
+* Actions with params
+
+
+
+<br>
+
 ## Concepts
 
-Coming soon, see https://vuex.vuejs.org/ for now...
+Coming soon, see https://vuex.vuejs.org/ for now to learn about this style of architecture.
+
+<br>
 
 ## Feedback
 
