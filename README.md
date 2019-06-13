@@ -14,6 +14,19 @@ Choose File -> Swift Packages -> Add Package Dependency and enter [this repo's .
 
 For now just choose the master branch under rules; as this package matures semantic versioning will be adopted.
 
+## Concepts
+
+* **State** is the root source of truth for your app
+* **Mutations** describe a synchronous change in state
+* **Committers** apply mutations to the state
+* **Actions** describe an asynchronous operation
+* **Dispatchers** execute actions and commit mutations when complete
+* **Getters** centralize logic related to retrieving data from the store
+
+See https://vuex.vuejs.org/ to learn more about this style of architecture.
+
+<br>
+
 ## Usage
 
 ### 1) Minimal example
@@ -21,6 +34,7 @@ For now just choose the master branch under rules; as this package matures seman
 <hr>
 
 #### Create state
+
 ```swift
 // Organize your state into modules, for this example we just use a single module
 class AppRootState: RootState {
@@ -40,6 +54,7 @@ class CounterState: FluxState, BindableObject {
 ```
 
 #### Create mutations/committers
+
 ```swift
 // Mutations define a change in state
 enum CounterMutation: Mutation {
@@ -271,14 +286,6 @@ To be documented:
 
 * Getter modules
 * Actions with params
-
-
-
-<br>
-
-## Concepts
-
-Coming soon, see https://vuex.vuejs.org/ for now to learn about this style of architecture.
 
 <br>
 
