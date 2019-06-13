@@ -9,7 +9,10 @@ Xcode 11 beta on MacOS 10.14 or 10.15
 ## Installation
 
 Choose File -> Swift Packages -> Add Package Dependency and enter [this repo's .git URL](https://github.com/johnsusek/fluxus.git):
+
 ![](https://user-images.githubusercontent.com/611996/59441703-a00cb200-8dbe-11e9-8483-c740b8274595.gif)
+
+For now just choose the master branch under rules; as this package matures semantic versioning will be adopted.
 
 ## Usage
 
@@ -72,6 +75,10 @@ class AppRootCommitter: RootCommitter {
 }
 ```
 
+#### Create actions/dispatchers
+
+*Docs coming soon...*
+
 #### Create getters
 ```swift
 // Getters centralize logic related to retrieving data from the store
@@ -120,3 +127,7 @@ struct ContentView: View {
 ## Concepts
 
 Coming soon, see https://vuex.vuejs.org/ for now...
+
+## Feedback
+
+Please take a look through the source and file an issue if you spot a bug or see a better way to do something.
