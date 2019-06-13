@@ -75,45 +75,34 @@ class AppRootCommitter: RootCommitter {
 }
 ```
 
-#### Create actions/dispatchers
-
-*Docs coming soon...*
-
-#### Create getters
-```swift
-// Getters centralize logic related to retrieving data from the store
-class AppRootGetter: RootGetter<AppRootState> {
-  var countIsEven: Bool {
-    get {
-      return state.counterState.count % 2 == 0
-    }
-  }
-}
-```
-
 #### Connect to view
-Inside SceneDelegate.swift's scene():
-```swift
-    let state = AppRootState()
-    let committer = AppRootCommitter()
-    let getters = AppRootGetter(withState: state)
-    let store = FluxStore<AppRootGetter>(withState: state, withCommitter: committer, withGetter: getters)
 
-    window.rootViewController = UIHostingController(rootView: ContentView()
-      .environmentObject(store)
-      .environmentObject(state.counterState))
+Inside SceneDelegate.swift's scene():
+
+```swift
+let state = AppRootState()
+let committer = AppRootCommitter()
+let store = FluxStore(withState: state, withCommitter: committer, withDispatcher: nil)
+
+window.rootViewController = UIHostingController(rootView: ContentView()
+  .environmentObject(store)
+  .environmentObject(state.counterState))
 ```
+
+#### Use in views
 
 Inside ContentView.swift:
 ```swift
+import Fluxus
+
 struct ContentView: View {
-  @EnvironmentObject var store: FluxStore<AppRootGetter>
+  @EnvironmentObject var store: FluxStore
   @EnvironmentObject var counterState: CounterState
 
   var body: some View {
     VStack {
       Text("Count: \(counterState.count)")
-        .color(store.getters.countIsEven ? .orange : .green)
+
       Button(action: { self.store.commit(CounterMutation.Increment) }) {
         Text("Increment")
       }
@@ -121,8 +110,6 @@ struct ContentView: View {
   }
 }
 ```
-
-ℹ️ Make sure to `import Fluxus` in these two files.
 
 ## Concepts
 
