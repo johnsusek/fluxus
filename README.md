@@ -8,7 +8,8 @@ Xcode 11 beta on MacOS 10.14 or 10.15
 
 ## Installation
 
-(swift package manager instructions)
+Choose File -> Swift Packages -> Add Package Dependency and enter [this repo's .git URL](https://github.com/johnsusek/fluxus.git):
+![](https://user-images.githubusercontent.com/611996/59441703-a00cb200-8dbe-11e9-8483-c740b8274595.gif)
 
 ## Usage
 
