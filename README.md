@@ -14,6 +14,8 @@ Choose File -> Swift Packages -> Add Package Dependency and enter [this repo's .
 
 For now just choose the master branch under rules; as this package matures semantic versioning will be adopted.
 
+<br>
+
 ## Concepts
 
 * **State** is the root source of truth for your app
@@ -24,6 +26,12 @@ For now just choose the master branch under rules; as this package matures seman
 * **Getters** centralize logic related to retrieving data from the store
 
 See https://vuex.vuejs.org/ to learn more about this style of architecture.
+
+<br>
+
+## Example app
+
+Check out the [example app](https://github.com/johnsusek/fluxus-example-app) which includes all the below code in a ready to run sample.
 
 <br>
 
