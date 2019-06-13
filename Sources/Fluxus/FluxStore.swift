@@ -7,12 +7,15 @@ public class FluxStore: BindableObject {
 
   public let state: RootState
   public let rootCommitter: RootCommitter
-  public let rootDispatcher: RootDispatcher
+  public var rootDispatcher: RootDispatcher?
 
-  public init(withState: RootState, withCommitter: RootCommitter, withDispatcher: RootDispatcher) {
+  public init(withState: RootState, withCommitter: RootCommitter, withDispatcher: RootDispatcher?) {
     state = withState
     rootCommitter = withCommitter
-    rootDispatcher = withDispatcher
+    
+    if let dispatcher = withDispatcher {
+      rootDispatcher = dispatcher
+    }
   }
 
   public func commit(_ mutation: Mutation) {
@@ -20,6 +23,8 @@ public class FluxStore: BindableObject {
   }
 
   public func dispatch(_ action: Action) {
-    rootDispatcher.dispatch(store: self, action: action)
+    if let dispatcher = rootDispatcher {
+      dispatcher.dispatch(store: self, action: action)
+    }
   }
 }
