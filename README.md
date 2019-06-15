@@ -29,9 +29,11 @@ See https://vuex.vuejs.org/ to learn more about this style of architecture.
 
 <br>
 
-## Example app
+## Example apps
 
-Check out the [example app](https://github.com/johnsusek/fluxus-example-app) which includes all the below code in a ready to run sample.
+👉 Check out the [simple example app](https://github.com/johnsusek/fluxus-example-app) which includes all the below code in a ready to run sample.
+
+👉 Check out the [landmarks example app](https://github.com/johnsusek/fluxus-landmark-example) for a fluxus implementation of the official landmark tutorial.
 
 <br>
 
