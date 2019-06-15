@@ -142,7 +142,7 @@ Run your app and you should see the counter incrementing.
 #### Create getter
 ```swift
 // Getters centralize logic related to retrieving data from the store
-class AppRootGetter: RootGetter<AppRootState> {
+class AppRootGetters: RootGetters<AppRootState> {
   var countIsEven: Bool {
     get {
       return state.counterState.count % 2 == 0
@@ -156,7 +156,7 @@ class AppRootGetter: RootGetter<AppRootState> {
 let state = AppRootState()
 let committer = AppRootCommitter()
 let store = FluxStore(withState: state, withCommitter: committer, withDispatcher: nil)
-let getters = AppRootGetter(withState: state) // + Added line
+let getters = AppRootGetters(withState: state) // + Added line
 
 window.rootViewController = UIHostingController(rootView: ContentView()
   .environmentObject(store)
@@ -171,7 +171,7 @@ import Fluxus
 struct ContentView: View {
   @EnvironmentObject var store: FluxStore
   @EnvironmentObject var counterState: CounterState
-  @EnvironmentObject var getters: AppRootGetter // + Added line
+  @EnvironmentObject var getters: AppRootGetters // + Added line
 
   var body: some View {
     VStack {
