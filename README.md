@@ -293,6 +293,7 @@ The count will now update asynchronously as you dispatch the IncrementRandom act
 To be documented:
 
 * Getter modules
+* Getter functions
 * Actions with params
 
 <br>
