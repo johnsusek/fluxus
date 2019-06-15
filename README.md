@@ -8,7 +8,7 @@ Xcode 11 beta on MacOS 10.14 or 10.15
 
 ## Installation
 
-In Xcode, choose File -> Swift Packages -> Add Package Dependency and enter [this repo's URL](https://github.com/johnsusek/fluxus):
+In Xcode, choose File -> Swift Packages -> Add Package Dependency and enter [this repo's URL](https://github.com/johnsusek/fluxus).
 
 ## Concepts
 
