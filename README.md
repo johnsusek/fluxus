@@ -27,7 +27,7 @@ See https://vuex.vuejs.org/ to learn more about this style of architecture.
 
 ## Example apps
 
-Check out the example apps to see these concepts demonstrated. 
+It is strongly suggested you download and explore the example apps to get an idea of how data flows in fluxus. 
 
 * The [simple example app](https://github.com/johnsusek/fluxus-example-app) includes all the below code in a ready to run sample.
 * The [landmarks example app](https://github.com/johnsusek/fluxus-landmark-example) is a fluxus version of the [official landmarks tutorial](https://developer.apple.com/tutorials/swiftui/working-with-ui-controls).
