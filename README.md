@@ -1,6 +1,10 @@
 # Fluxus
 
-True one-way data flow for SwiftUI, inspired by Vuex
+Fluxus is an implementation of the Flux pattern for SwiftUI that replaces MVC, MVVM, Viper, etc. 
+* Organize all your model data into a store and easily access in your views. 
+* Use mutations and actions from your views to modify your app's state. 
+* Use getters to retrieve data in exactly the format you need.
+* No more business or formatting logic in your views!
 
 ## Requirements
 
