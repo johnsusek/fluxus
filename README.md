@@ -10,8 +10,6 @@ Xcode 11 beta on MacOS 10.14 or 10.15
 
 In Xcode, choose File -> Swift Packages -> Add Package Dependency and enter [this repo's URL](https://github.com/johnsusek/fluxus):
 
-<br>
-
 ## Concepts
 
 * **State** is the root source of truth for your app
@@ -22,8 +20,6 @@ In Xcode, choose File -> Swift Packages -> Add Package Dependency and enter [thi
 * **Getters** centralize logic related to retrieving data from the store
 
 See https://vuex.vuejs.org/ to learn more about this style of architecture.
-
-<br>
 
 ## Example apps
 
