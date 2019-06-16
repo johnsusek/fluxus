@@ -313,7 +313,8 @@ To be documented:
 ## Troubleshooting
 
 **Swift/SourceKit are using 100% CPU when I try to add Fluxus stuff to my views!**
-This is a bug in Xcode 11 beta, it usually means you haven't imported Fluxus into your view, or you haven't passed the right .environmentObject() to your view. 
+
+*This is a bug in Xcode 11 beta, it usually means you haven't imported Fluxus into your view, or you haven't passed the right .environmentObject() to your view.*
 
 ## Feedback
 
