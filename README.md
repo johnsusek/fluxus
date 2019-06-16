@@ -21,7 +21,7 @@ In Xcode, choose File -> Swift Packages -> Add Package Dependency and enter [thi
 * **Committers** apply mutations to the state
 * **Actions** describe an asynchronous operation
 * **Dispatchers** execute actions and commit mutations when complete
-* **Getters** centralize logic related to retrieving data from the store
+* **Getters** organize logic related to retrieving data from the store
 
 See https://vuex.vuejs.org/ to learn more about this style of architecture.
 
