@@ -5,9 +5,9 @@ import Combine
 open class RootGetters<T>: BindableObject {
   public var didChange = PassthroughSubject<Void, Never>()
 
-  public var rootState: T
+  public var state: T
 
   public init(withState: T) {
-    self.rootState = withState
+    self.state = withState
   }
 }
