@@ -214,11 +214,9 @@ struct ContentView_Previews : PreviewProvider {
 #endif
 ```
 
-<br>
 
-ℹ️  You should now have an app that demonstrates the basics of the flux pattern with Fluxus & SwiftUI. If you're having trouble getting this running, file a Github issue and we'll try to help.
+💡 You should now have an app that demonstrates the basics of the flux pattern with Fluxus & SwiftUI. If you're having trouble getting this running, download the example app, or file a Github issue and we'll try to help.
 
-<br>
 
 ## Troubleshooting
 
@@ -230,7 +228,9 @@ struct ContentView_Previews : PreviewProvider {
 
 ## Feedback
 
-Please take a look through the source and file an issue if you spot a bug or see a better way to do something.
+Please file an issue if you spot a bug or think of a better way to do something. 
+
+Follow me on twitter [@jsusek](https://twitter.com/jsusek) for random thoughts on SwiftUI.
 
 ## Other SwiftUI Flux implementations 
 * https://github.com/Dimillian/SwiftUIDemo
