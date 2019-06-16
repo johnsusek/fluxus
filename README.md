@@ -32,6 +32,12 @@ See https://vuex.vuejs.org/ to learn more about this style of architecture.
 * The [simple example app](https://github.com/johnsusek/fluxus-example-app) includes all the below code in a ready to run sample.
 * The [landmarks example app](https://github.com/johnsusek/fluxus-landmark-example) is a fluxus version of the [official landmarks tutorial](https://developer.apple.com/tutorials/swiftui/working-with-ui-controls).
 
+## Video tutorials
+
+* Part 1 - State, Mutations, Committers - https://youtu.be/zQwVilYdk7Q
+* Part 2 - Getters - https://youtu.be/gSHPaSzzvbM
+* Part 3 - Actions & Dispatchers - https://youtu.be/oeemQ3X1MkE
+
 <br>
 
 ## Usage
