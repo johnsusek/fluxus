@@ -27,7 +27,7 @@ See https://vuex.vuejs.org/ to learn more about this style of architecture.
 
 ## When should I use it?
 
-Fluxus helps us deal with shared state management at the cost of more concepts and boilerplate. If you're not building a complex app, and jump right into Fluxus, it may feel verbose and unnecessary. If your app is simple, you probably don't need it. But once your app grows to a certain complexity, you'll start looking for ways to organize shared state. To quote Dan Abramov, author of Redux:
+Fluxus helps us deal with shared state management at the cost of more concepts and boilerplate. If you're not building a complex app, and jump right into Fluxus, it may feel verbose and unnecessary. If your app is simple, you probably don't need it. But once your app grows to a certain complexity, you'll start looking for ways to organize shared state, and Fluxus is here to help with that. To quote Dan Abramov, author of Redux:
 
 > Flux libraries are like glasses: you’ll know when you need them.
 
