@@ -310,6 +310,12 @@ To be documented:
 
 <br>
 
+### Where to go from here?
+
+Study the [landmarks example app](https://github.com/johnsusek/fluxus-landmark-example) for a more complex example of fluxus.
+
+<br>
+
 ## Troubleshooting
 
 **Swift/SourceKit are using 100% CPU when I try to add Fluxus stuff to my views!**
