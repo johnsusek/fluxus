@@ -149,7 +149,7 @@ Run your app and you should see the counter incrementing.
 class AppRootGetters: RootGetters<AppRootState> {
   var countIsEven: Bool {
     get {
-      return state.counterState.count % 2 == 0
+      return rootState.counterState.count % 2 == 0
     }
   }
 }
