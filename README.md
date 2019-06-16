@@ -325,3 +325,10 @@ Study the [landmarks example app](https://github.com/johnsusek/fluxus-landmark-e
 ## Feedback
 
 Please take a look through the source and file an issue if you spot a bug or see a better way to do something.
+
+## Other SwiftUI Flux implementations 
+* https://github.com/Dimillian/SwiftUIDemo
+* https://github.com/pocket7878/swift-ui-redux-like
+* https://github.com/alexdrone/DispatchStore
+* https://github.com/StevenLambion/SwiftDux
+
