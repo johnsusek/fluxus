@@ -22,8 +22,6 @@ In Xcode, choose File -> Swift Packages -> Add Package Dependency and enter [thi
 * **Actions** describe an asynchronous operation
 * **Dispatchers** execute actions and commit mutations when complete
 
-See https://vuex.vuejs.org/ to learn more about this style of architecture.
-
 ## When should I use it?
 
 Fluxus helps us deal with shared state management at the cost of more concepts and boilerplate. If you're not building a complex app, and jump right into Fluxus, it may feel verbose and unnecessary. If your app is simple, you probably don't need it. But once your app grows to a certain complexity, you'll start looking for ways to organize shared state, and Fluxus is here to help with that. To quote Dan Abramov, author of Redux:
@@ -31,8 +29,6 @@ Fluxus helps us deal with shared state management at the cost of more concepts a
 > Flux libraries are like glasses: you’ll know when you need them.
 
 ## Example apps
-
-It is strongly suggested you download and explore the example apps to get an idea of how data flows in fluxus. 
 
 * The [simple example app](https://github.com/johnsusek/fluxus-example-app) includes all the below code in a ready to run sample.
 
