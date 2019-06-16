@@ -331,4 +331,6 @@ Please take a look through the source and file an issue if you spot a bug or see
 * https://github.com/pocket7878/swift-ui-redux-like
 * https://github.com/alexdrone/DispatchStore
 * https://github.com/StevenLambion/SwiftDux
+* https://github.com/ra1028/SwiftUI-Flux
+* https://github.com/kitasuke/SwiftUI-Flux
 
