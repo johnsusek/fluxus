@@ -1,14 +1,10 @@
-🚨 Code samples and examples will not work while refactoring for a greatly simplified v2 (v0.0.2?) 
-
-⚠ Examples and usage section will be updated shortly
-
 # Fluxus
 
 Fluxus is an implementation of the Flux pattern for SwiftUI that replaces MVC, MVVM, Viper, etc. 
 * Organize all your model data into a store and easily access in your views. 
-* Use mutations and actions from your views to modify your app's state. 
-* Use getters to retrieve data in exactly the format you need.
-* No more business or formatting logic in your views!
+* Use mutations to modify your app's state.
+* Use actions to perform asynchronous operations.  
+* Keep your models and views as simple as possible.
 
 ## Requirements
 
@@ -25,7 +21,6 @@ In Xcode, choose File -> Swift Packages -> Add Package Dependency and enter [thi
 * **Committers** apply mutations to the state
 * **Actions** describe an asynchronous operation
 * **Dispatchers** execute actions and commit mutations when complete
-* **Getters** organize logic related to retrieving data from the store
 
 See https://vuex.vuejs.org/ to learn more about this style of architecture.
 
@@ -35,290 +30,207 @@ Fluxus helps us deal with shared state management at the cost of more concepts a
 
 > Flux libraries are like glasses: you’ll know when you need them.
 
-
 ## Example apps
 
-👉 It is strongly suggested you download and explore the example apps to get an idea of how data flows in fluxus. 
+It is strongly suggested you download and explore the example apps to get an idea of how data flows in fluxus. 
 
 * The [simple example app](https://github.com/johnsusek/fluxus-example-app) includes all the below code in a ready to run sample.
-* The [landmarks example app](https://github.com/johnsusek/fluxus-landmark-example) is a fluxus version of the [official landmarks tutorial](https://developer.apple.com/tutorials/swiftui/working-with-ui-controls).
-
-<br>
 
 ## Usage
 
-### 1) Minimal example
+### Create state
 
-<hr>
-
-#### Create state
+State is the root source of truth for the model data in your app. We create one state module, for a counter, and add it to the root state struct.
 
 ```swift
-// Organize your state into modules, for this example we just use a single module
-class AppRootState: RootState {
-  let counterState = CounterState()
-}
+import Fluxus
 
-// Here is the state module we are using, just a simple BindableObject
-class CounterState: FluxState, BindableObject {
-  var didChange = PassthroughSubject<CounterState, Never>()
+struct CounterState: FluxState {
+  var count = 0
 
-  var count: Int = 0 {
-    didSet {
-      didChange.send(self)
+  var countIsEven: Bool {
+    get {
+      return count % 2 == 0
     }
   }
+
+  func countIsDivisibleBy(_ by: Int) -> Bool {
+    return count % by == 0
+  }
+}
+
+struct RootState {
+  var counter = CounterState()
 }
 ```
 
-#### Create mutations/committers
+### Create mutations/committers
+
+Mutations describe a change in state. Committers receive mutations and modify the state.
 
 ```swift
-// Mutations define a change in state
+import Fluxus
+
 enum CounterMutation: Mutation {
   case Increment
+  case AddAmount(Int)
 }
 
-// Committers apply mutations to state
-final class CounterCommitter: Committer {
-  func commit(state: CounterState, mutation: CounterMutation) {
+struct CounterCommitter: Committer {
+  func commit(state: CounterState, mutation: CounterMutation) -> CounterState {
+    var state = state
+
     switch mutation {
     case .Increment:
       state.count += 1
+    case .AddAmount(let amount):
+      state.count += amount
     }
-  }
-}
 
-// All mutations are first sent to the root committer, which routes them to the
-// correct committer module
-class AppRootCommitter: RootCommitter {
-  let counterCommitter = CounterCommitter()
-
-  // All mutations start here
-  func commit(state rootState: RootState, mutation: Mutation) {
-    guard let state = rootState as? AppRootState else { return }
-
-    // Route to correct committer
-    switch mutation {
-    case is CounterMutation:
-      // It's a counter mutation, commit it to the counter state
-      counterCommitter.commit(state: state.counterState, mutation: mutation as! CounterMutation)
-    default:
-      print("Unknown mutation type: \(mutation)")
-    }
+    return state
   }
 }
 ```
 
-#### Connect to view
+### Create actions/dispatchers
 
-Inside SceneDelegate.swift's scene():
+Actions describe an asynchronous operation. Dispatchers receive actions, then commit mutations when the operation is complete.
 
-```swift
-let state = AppRootState()
-let committer = AppRootCommitter()
-let store = FluxStore(withState: state, withCommitter: committer, withDispatcher: nil)
-
-window.rootViewController = UIHostingController(rootView: ContentView()
-  .environmentObject(store)
-  .environmentObject(state.counterState))
-```
-
-#### Use in views
-
-Inside ContentView.swift:
-```swift
+```swift 
+import Foundation
 import Fluxus
 
-struct ContentView: View {
-  @EnvironmentObject var store: FluxStore
-  @EnvironmentObject var counterState: CounterState
-
-  var body: some View {
-    VStack {
-      Text("Count: \(counterState.count)")
-
-      Button(action: { self.store.commit(CounterMutation.Increment) }) {
-        Text("Increment")
-      }
-    }
-  }
-}
-```
-
-Run your app and you should see the counter incrementing.
-
-<br>
-
-### 2) Add getters
-
-<hr>
-
-#### Create getter
-```swift
-// Getters centralize logic related to retrieving data from the store
-class AppRootGetters: RootGetters<AppRootState> {
-  var countIsEven: Bool {
-    get {
-      return state.counterState.count % 2 == 0
-    }
-  }
-}
-```
-
-#### Update SceneDelegate
-```swift
-let state = AppRootState()
-let committer = AppRootCommitter()
-let store = FluxStore(withState: state, withCommitter: committer, withDispatcher: nil)
-let getters = AppRootGetters(withState: state) // + Added line
-
-window.rootViewController = UIHostingController(rootView: ContentView()
-  .environmentObject(store)
-  .environmentObject(getters) // + Added line
-  .environmentObject(state.counterState))
-```
-
-#### Update View
-```swift
-import Fluxus
-
-struct ContentView: View {
-  @EnvironmentObject var store: FluxStore
-  @EnvironmentObject var counterState: CounterState
-  @EnvironmentObject var getters: AppRootGetters // + Added line
-
-  var body: some View {
-    VStack {
-      Text("Count: \(counterState.count)")
-        .color(getters.countIsEven ? .orange : .green) // + Added line
-
-      Button(action: { self.store.commit(CounterMutation.Increment) }) {
-        Text("Increment")
-      }
-    }
-  }
-}
-```
-
-Now the color will change based on the getter value. 
-
-<br>
-
-### 3) Add actions/dispatchers
-
-<hr>
-
-#### Create actions/dispatchers
-
-```swift
-// Actions define an async operation
 enum CounterAction: Action {
   case IncrementRandom
+  case IncrementRandomWithRange(Int)
 }
 
-// Dispatchers execute actions
-final class CounterDispatcher: Dispatcher {
-  func dispatch(store: FluxStore, action: CounterAction) {
+struct CounterDispatcher: Dispatcher {
+  var commit: (Mutation) -> Void
+
+  func dispatch(action: CounterAction) {
     switch action {
     case .IncrementRandom:
-      CounterDispatcher.IncrementRandom(store: store)
+      IncrementRandom()
+    case .IncrementRandomWithRange(let range):
+      IncrementRandom(range: range)
     }
   }
 
-  static func IncrementRandom(store: FluxStore) {
-    // This could be any async operation, API call, etc
-    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100), execute: {
-      let exampleResultFromAsyncOperation = Int.random(in: 1..<100)
-      // Async operation done, commit mutation
-      store.commit(CounterMutation.AddAmount(exampleResultFromAsyncOperation))
+  func IncrementRandom(range: Int = 100) {
+    // Simulate API call that takes 150ms to complete
+    DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(150), execute: {
+      let exampleResultFromAsyncOperation = Int.random(in: 1..<range)
+      self.commit(CounterMutation.AddAmount(exampleResultFromAsyncOperation))
     })
   }
 }
+```
 
-// All actions are first sent to the root dispatcher, which routes them to the
-// correct dispatcher module
-final class AppRootDispatcher: RootDispatcher {
-  let counterDispatcher = CounterDispatcher()
+### Create store
 
-  func dispatch(store: FluxStore, action: Action) {
+The store holds the current state. It also provides commit and dispatch methods, which route mutations and actions to the correct modules.
+
+```swift
+import SwiftUI
+import Combine
+import Fluxus
+
+final class RootStore: BindableObject {
+  var didChange = PassthroughSubject<RootStore, Never>()
+
+  var state = RootState()
+
+  func commit(_ mutation: Mutation) {
+    switch mutation {
+    case is CounterMutation:
+      state.counter = CounterCommitter().commit(state: self.state.counter, mutation: mutation as! CounterMutation)
+    default:
+      print("Unknown mutation type!")
+    }
+
+    didChange.send(self)
+  }
+
+  func dispatch(_ action: Action) {
     switch action {
     case is CounterAction:
-      counterDispatcher.dispatch(store: store, action: action as! CounterAction)
+      CounterDispatcher(commit: self.commit).dispatch(action: action as! CounterAction)
     default:
-      print("Unknown action type: \(action)")
+      print("Unknown action type!")
     }
   }
 }
 ```
 
-#### Update mutations
+### Add store to environment
 
-Our IncrementRandom action commits a CounterMutation.AddAmount(Int) mutation when it's done, so let's add that to our mutations:
+We now provide the store to our views inside SceneDelegate.swift.
 
 ```swift
-enum CounterMutation: Mutation {
-  case Increment
-  case AddAmount(Int) // + Added line
-}
+window.rootViewController = UIHostingController(rootView: ContentView().environmentObject(RootStore()))
 ```
 
-And then implement it in our CounterCommitter:
+### Use in views
 
+ContentView.swift:
 ```swift
-final class CounterCommitter: Committer {
-  func commit(state: CounterState, mutation: CounterMutation) {
-    switch mutation {
-    case .Increment:
-      state.count += 1
-    case .AddAmount(let amount): // + Added line
-      state.count += amount // + Added line
+import SwiftUI
+
+struct ContentView : View {
+  @EnvironmentObject var store: RootStore
+
+  var body: some View {
+    VStack {
+      // Read the count from the store, and use a getter function to decide color
+      Text("Count: \(store.state.counter.count)")
+        .color(store.state.counter.countIsDivisibleBy(3) ? .orange : .green)
+
+      // Commit a mutation without a param
+      Button(action: { self.store.commit(CounterMutation.Increment) }) {
+        Text("Increment")
+      }
+
+      // Commit a mutation with a param
+      Button(action: { self.store.commit(CounterMutation.AddAmount(5)) }) {
+        Text("Increment by amount (5)")
+      }
+
+      // Dispatch an action without a param
+      Button(action: { self.store.dispatch(CounterAction.IncrementRandom) }) {
+        Text("Increment random")
+      }
+
+      // Dispatch an action with a param
+      Button(action: { self.store.dispatch(CounterAction.IncrementRandomWithRange(20)) }) {
+        Text("Increment random with range (20)")
+      }
     }
   }
 }
-```
 
-#### Update SceneDelegate
-
-```swift
-let dispatcher = AppRootDispatcher() // + Added line
-let store = FluxStore(withState: state, withCommitter: committer, withDispatcher: dispatcher) // ~ Updated line
-```
-
-#### Update ContentView
-
-```swift
-// +++ Added lines
-Button(action: { self.store.dispatch(CounterAction.IncrementRandom) }) {
-  Text("Increment Random (Async)")
+#if DEBUG
+struct ContentView_Previews : PreviewProvider {
+  static var previews: some View {
+    ContentView().environmentObject(RootStore())
+  }
 }
+#endif
 ```
 
-The count will now update asynchronously as you dispatch the IncrementRandom action.
-
 <br>
 
-### Additional functionality
-
-To be documented:
-
-* Getter modules
-* Getter functions
-* Actions with params
-
-<br>
-
-### Where to go from here?
-
-Study the [landmarks example app](https://github.com/johnsusek/fluxus-landmark-example) for a more complex example of fluxus.
+ℹ️  You should now have an app that demonstrates the basics of the flux pattern with Fluxus & SwiftUI. If you're having trouble getting this running, file a Github issue and we'll try to help.
 
 <br>
 
 ## Troubleshooting
 
-**Swift/SourceKit are using 100% CPU when I try to add Fluxus stuff to my views!**
+**Swift/SourceKit are using 100% CPU!**
 
-*This is a bug in Xcode 11 beta, it usually means you haven't imported Fluxus into your view, or you haven't passed the right .environmentObject() to your view.*
+*This is a bug in Xcode 11 beta, it usually means something is wrong with your @EnvironmentObject, make sure you are passing .environmentObject() to your view correctly.*
+
+*If you are presenting a new view (e.g. a modal) you will have to pass .environmentObject(store) to it, just like your root view controller.*
 
 ## Feedback
 
