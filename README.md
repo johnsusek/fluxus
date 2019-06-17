@@ -38,6 +38,9 @@ Fluxus helps us deal with shared state management at the cost of more concepts a
 * The [landmarks example app](https://github.com/johnsusek/fluxus-landmark-example) is a reimplementation of the official landmarks tutorial app using fluxus.
 * The [todo example app](https://github.com/johnsusek/fluxus-todo-example) is a very simple implementation of a todo list.
 
+## Articles
+* [Let's Write a To-Do App with Fluxus](https://www.notion.so/7e6f682ca7e24d0f8504eedfd0cec132)
+
 ## Usage
 
 ### Create state
