@@ -1,4 +1,4 @@
-![Fluxus](https://user-images.githubusercontent.com/611996/59575192-ec3a4980-907f-11e9-9073-4d32108a39f7.png)
+# ![Fluxus](https://user-images.githubusercontent.com/611996/59575192-ec3a4980-907f-11e9-9073-4d32108a39f7.png)
 
 Fluxus is an implementation of the Flux pattern for SwiftUI that replaces MVC, MVVM, Viper, etc. 
 * Organize all your model data into a store and easily access in your views. 
