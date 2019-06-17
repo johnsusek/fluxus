@@ -20,7 +20,9 @@ In Xcode, choose File -> Swift Packages -> Add Package Dependency and enter [thi
 * **Mutations** describe a synchronous change in state
 * **Committers** apply mutations to the state
 * **Actions** describe an asynchronous operation
-* **Dispatchers** execute actions and commit mutations when complete
+* **Dispatchers** execute asynchronous actions and commit mutations when complete
+
+![Obligatory Flux Diagram](https://user-images.githubusercontent.com/611996/59575032-4b4b8e80-907f-11e9-8fc3-9efe5aaa0682.png)
 
 ## When should I use it?
 
