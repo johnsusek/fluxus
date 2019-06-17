@@ -236,6 +236,7 @@ struct ContentView_Previews : PreviewProvider {
 #endif
 ```
 
+![Simulator Screen Shot - iPhone Xs - 2019-06-17 at 15 32 11](https://user-images.githubusercontent.com/611996/59634784-2dc90400-9115-11e9-9180-e4d4639d34d5.png)
 
 💡 You should now have an app that demonstrates the basics of the flux pattern with Fluxus & SwiftUI. If you're having trouble getting this running, download the example app, or file a Github issue and we'll try to help.
 
