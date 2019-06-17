@@ -28,6 +28,8 @@ Fluxus helps us deal with shared state management at the cost of more concepts a
 
 > Flux libraries are like glasses: you’ll know when you need them.
 
+*Using Fluxus doesn't mean you should put **all** your state in Fluxus.* If a piece of state strictly belongs to a single View, it might be fine to just use local @State. Check out the landmarks example to see how local @State and Fluxus state can work together.
+
 ## Example apps
 
 * The [simple example app](https://github.com/johnsusek/fluxus-example-app) includes all the below code in a ready to run sample.
