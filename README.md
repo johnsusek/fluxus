@@ -47,6 +47,8 @@ import Fluxus
 struct CounterState: FluxState {
   var count = 0
 
+  var myBoolBinding = false
+
   var countIsEven: Bool {
     get {
       return count % 2 == 0
@@ -205,6 +207,11 @@ struct ContentView : View {
       // Dispatch an action with a param
       Button(action: { self.store.dispatch(CounterAction.IncrementRandomWithRange(20)) }) {
         Text("Increment random with range (20)")
+      }
+
+      // Use with control bindings
+      Toggle(isOn: $store.state.counter.myBoolBinding) {
+        Text("My boolean is: \(store.state.counter.myBoolBinding ? "true" : "false")")
       }
     }
   }
