@@ -32,7 +32,7 @@ Fluxus helps us deal with shared state management at the cost of more concepts a
 
 ## Example apps
 
-* The [simple example app](https://github.com/johnsusek/fluxus-example-app) includes all the below code in a ready to run sample.
+* The [minimal example app](https://github.com/johnsusek/fluxus-example-app) includes all the below code in a ready to run sample.
 * The [landmarks example app](https://github.com/johnsusek/fluxus-landmark-example) is a reimplementation of the official landmarks tutorial app using fluxus.
 
 ## Usage
