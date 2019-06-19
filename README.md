@@ -81,6 +81,7 @@ import Fluxus
 enum CounterMutation: Mutation {
   case Increment
   case AddAmount(Int)
+  case SetMyBool(Bool)
 }
 
 struct CounterCommitter: Committer {
@@ -92,6 +93,8 @@ struct CounterCommitter: Committer {
       state.count += 1
     case .AddAmount(let amount):
       state.count += amount
+    case .SetMyBool(let value):
+      state.myBoolBinding = value
     }
 
     return state
@@ -143,6 +146,8 @@ import SwiftUI
 import Combine
 import Fluxus
 
+let rootStore = RootStore()
+
 final class RootStore: BindableObject {
   var didChange = PassthroughSubject<RootStore, Never>()
 
@@ -177,7 +182,7 @@ final class RootStore: BindableObject {
 We now provide the store to our views inside SceneDelegate.swift.
 
 ```swift
-window.rootViewController = UIHostingController(rootView: ContentView().environmentObject(RootStore()))
+window.rootViewController = UIHostingController(rootView: ContentView().environmentObject(rootStore))
 ```
 
 ### Use in views
@@ -218,19 +223,28 @@ struct ContentView : View {
           }
         }
 
-        // Use with control bindings
-        Toggle(isOn: $store.state.counter.myBoolBinding) {
-          Text("My boolean is: \(store.state.counter.myBoolBinding ? "true" : "false")")
+        // Use with bindings
+        Toggle(isOn: myToggleValue) {
+          Text("My boolean is: \(myToggleValue.value ? "true" : "false")")
         }
       }.navigationBarTitle(Text("Fluxus Example"))
     }
   }
+
+  // Use computed properties to get/set state via a binding
+  var myToggleValue = Binding<Bool> (
+    getValue: {
+      rootStore.state.counter.myBoolBinding
+  },
+    setValue: { value in
+      rootStore.commit(CounterMutation.SetMyBool(value))
+  })
 }
 
 #if DEBUG
 struct ContentView_Previews : PreviewProvider {
   static var previews: some View {
-    ContentView().environmentObject(RootStore())
+    return ContentView().environmentObject(rootStore)
   }
 }
 #endif
