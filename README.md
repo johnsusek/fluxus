@@ -53,7 +53,7 @@ import Fluxus
 struct CounterState: FluxState {
   var count = 0
 
-  var myBoolBinding = false
+  var myBoolValue = false
 
   var countIsEven: Bool {
     get {
@@ -94,7 +94,7 @@ struct CounterCommitter: Committer {
     case .AddAmount(let amount):
       state.count += amount
     case .SetMyBool(let value):
-      state.myBoolBinding = value
+      state.myBoolValue = value
     }
 
     return state
@@ -224,17 +224,17 @@ struct ContentView : View {
         }
 
         // Use with bindings
-        Toggle(isOn: myToggleValue) {
-          Text("My boolean is: \(myToggleValue.value ? "true" : "false")")
+        Toggle(isOn: myToggleBinding) {
+          Text("My boolean is: \(myToggleBinding.value ? "true" : "false")")
         }
       }.navigationBarTitle(Text("Fluxus Example"))
     }
   }
 
   // Use computed properties to get/set state via a binding
-  var myToggleValue = Binding<Bool> (
+  var myToggleBinding = Binding<Bool> (
     getValue: {
-      rootStore.state.counter.myBoolBinding
+      rootStore.state.counter.myBoolValue
   },
     setValue: { value in
       rootStore.commit(CounterMutation.SetMyBool(value))
