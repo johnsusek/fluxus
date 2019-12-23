@@ -2,7 +2,7 @@
 
 ⚠️ Fluxus is no longer maintained, and may not be using latest SwiftUI best practices.
 
-👉 I encourage you to look at the [source of Fluxus](https://github.com/johnsusek/fluxus/blob/master/Sources/Fluxus/Fluxus.swift). If you do, you'll realize this is simply a pattern more than a framework, so please study and you can roll your own Vuex-style SwiftUI store. 
+👉 I encourage you to look at the [source of Fluxus](https://github.com/johnsusek/fluxus/blob/master/Sources/Fluxus/Fluxus.swift). If you do, you'll realize this is _simply a pattern_ more than a framework, so please study and you can roll your own Vuex-style SwiftUI store. 
 
 
 
